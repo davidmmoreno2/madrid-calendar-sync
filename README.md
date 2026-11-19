@@ -64,7 +64,7 @@ gh secret set FOOTBALL_DATA_API_KEY --repo TU_USUARIO/TU_REPO
 
 ### 5. Lanza el workflow una vez a mano
 
-Pestaña **Actions** del repo → **Actualizar calendario Real Madrid** → **Run workflow**. Comprueba que termina en verde y que aparece/actualiza `partidos-real-madrid.ics` en el repo.
+Pestaña **Actions** del repo → **Actualizar calendarios (Real Madrid y Sixers)** → **Run workflow**. Comprueba que termina en verde y que aparece/actualiza `partidos-real-madrid.ics` en el repo.
 
 ### 6. Suscríbete desde el iPhone
 
@@ -82,3 +82,20 @@ Pestaña **Actions** del repo → **Actualizar calendario Real Madrid** → **Ru
 - El evento usa un `UID` estable por partido (`rm-fixture-{id}@madrid-calendar-sync`), así que si cambia la hora de un partido (típico por TV), el mismo evento se actualiza en vez de duplicarse.
 - iOS decide cada cuánto refresca los calendarios suscritos (no hay forma de forzar tiempo real) — normalmente cada pocas horas.
 - Duración de cada evento: estimada en 2 horas desde el saque inicial.
+
+## Calendario de los Sixers (NBA)
+
+El mismo workflow genera también `partidos-sixers.ics` con `generar_ics_sixers.py`:
+
+- **Fuente**: la API pública de ESPN (`site.api.espn.com`). No hace falta token ni secret.
+- **Cobertura**: temporada regular (NBA Cup incluida), play-in y playoffs. Los partidos de playoffs se añaden solos en cuanto la NBA los programa.
+- Solo incluye partidos que aún no se han jugado. Los aplazados o cancelados no aparecen.
+- Cada evento dura 2 h 30 min estimadas. El título es `Visitante @ Local` y la descripción lleva la fase, la TV estadounidense y un aviso si la hora no está confirmada.
+- El `UID` es estable por partido (`sixers-game-{id}@madrid-calendar-sync`), así que los cambios de hora actualizan el evento sin duplicarlo.
+
+Para suscribirte en el iPhone sigue el paso 6 con esta URL:
+```
+https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/partidos-sixers.ics
+```
+
+Para probarlo en local: `python generar_ics_sixers.py`
